@@ -1,7 +1,10 @@
-import { Body, Controller, Post, Req, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginBodyDto, RegisterBodyDto } from './authdto';
+import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { ModuleAccessGuard } from './guards/module-access.guard';
+import { ModuleAccess } from './decorators/module-access.decorator';
 
 
 @ApiTags("auth")
@@ -19,7 +22,7 @@ export class AuthController {
     })
     @UsePipes(new ValidationPipe({ transform: true }))
     @Post('register')
-    async getOrderList(@Body() request: RegisterBodyDto, @Req() req: any) {
+    async registerUser(@Body() request: RegisterBodyDto, @Req() req: any) {
         try {
             const user = await this.authService.register(request)
             delete user.password
@@ -36,12 +39,31 @@ export class AuthController {
     })
     @Post('login')
     @UsePipes(new ValidationPipe({ transform: true }))
-    async getAdminOrders(@Body() request: RegisterBodyDto) {
+    async loginUser(@Body() request: RegisterBodyDto) {
         try {
             const login = await this.authService.login(request.email, request.password);
             return login
         } catch (e) {
             throw e
+        }
+    }
+
+
+    @ApiBody({
+        type: RegisterBodyDto
+    })
+    @UsePipes(new ValidationPipe({ transform: true }))
+    @Post('register-business')
+    @UseGuards(JwtAuthGuard, ModuleAccessGuard)
+    @ModuleAccess('SUPERADMIN')
+    async reagisterBusiness(@Body() request: RegisterBodyDto) {
+        try {
+            const user = await this.authService.register(request, 'business')
+            delete user.password
+            delete user.isDeleted
+            return user;
+        } catch (e) {
+            throw e;
         }
     }
 

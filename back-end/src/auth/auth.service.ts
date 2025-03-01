@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Auth } from './auth.entity';
-import { RegisterBodyDto } from './authdto';
+import { RegisterBodyDto, Roles } from './authdto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -31,18 +31,27 @@ export class AuthService {
   }
 
 
-  async register(user: RegisterBodyDto) {
+  async register(user: RegisterBodyDto, role?: Roles) {
     const salt = await bcrypt.genSalt(10);
-    console.log(salt, user,)
     user.password = await bcrypt.hash(user.password, salt);
     const newUser = this.authRepository.create(
       {
         ...user,
-        role: 'buyer',
+        role: role || 'buyer',
         isDeleted: 0
       }
     )
 
     return await this.authRepository.save(newUser);
   }
+
+
+  async getRole(email: string) {
+    const user = await this.authRepository.findOne({ where: { email } });
+
+    if (user) return user.role;
+
+    return;
+  }
+
 }

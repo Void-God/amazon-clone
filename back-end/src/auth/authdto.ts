@@ -34,5 +34,9 @@ export class LoginBodyDto {
     @IsEmail()
     email: string;
 
-
 }
+
+
+
+
+export type Roles = "buyer" | "business" | "SUPERADMIN";
