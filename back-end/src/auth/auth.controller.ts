@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
-import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { LoginBodyDto, RegisterBodyDto } from './authdto';
+import { LoginBodyDto, LoginResponseDto, RegisterBodyDto } from './authdto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { ModuleAccessGuard } from './guards/module-access.guard';
 import { ModuleAccess } from './decorators/module-access.decorator';
@@ -37,9 +37,14 @@ export class AuthController {
     @ApiBody({
         type: LoginBodyDto
     })
+    @ApiResponse({
+        status: 201,
+        description: 'User successfully registered',
+        type: LoginResponseDto,
+    })
     @Post('login')
     @UsePipes(new ValidationPipe({ transform: true }))
-    async loginUser(@Body() request: RegisterBodyDto) {
+    async loginUser(@Body() request: LoginBodyDto) {
         try {
             const login = await this.authService.login(request.email, request.password);
             return login

@@ -38,5 +38,49 @@ export class LoginBodyDto {
 
 
 
+export class LoginResponseDto {
+
+    @ApiProperty()
+    token: string;
+
+    @ApiProperty()
+    email: string;
+
+    @ApiProperty()
+    phoneNumber: string;
+
+    @ApiProperty()
+    imageRelativePath: string;
+
+    @ApiProperty()
+    imageLocalName: string;
+
+
+}
+
+
+export class RegisterResponseDto {
+
+    @ApiProperty()
+    token: string;
+
+    @ApiProperty()
+    email: string;
+
+    @ApiProperty()
+    phoneNumber: string;
+
+    @ApiProperty()
+    imageRelativePath: string;
+
+    @ApiProperty()
+    imageLocalName: string;
+
+
+}
+
+
+
+
 
 export type Roles = "buyer" | "business" | "SUPERADMIN";
