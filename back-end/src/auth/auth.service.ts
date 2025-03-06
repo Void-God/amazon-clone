@@ -27,16 +27,16 @@ export class AuthService {
       phoneNumber: user.phoneNumber,
       imagePath: user.imageRelativePath,
       imageName: user.imageLocalName,
-      role : user.role
+      role: user.role
     };
   }
 
 
   async register(user: RegisterBodyDto, role?: Roles) {
 
-    const existing = await this.authRepository.findOne({ where: { email : user.email } });
+    const existing = await this.authRepository.findOne({ where: { email: user.email } });
 
-    if(existing)
+    if (existing)
       throw new BadRequestException("User Already Exist!")
 
     const salt = await bcrypt.genSalt(10);
@@ -59,6 +59,29 @@ export class AuthService {
     if (user) return user.role;
 
     return;
+  }
+
+
+
+  async getBusinessesList(page: number, limit) {
+
+    const skip = (page - 1) * limit;
+
+
+    const businesses = await this.authRepository.find({
+      where: { role: 'business' },
+      skip: skip,   
+      take: limit, 
+    });
+
+    const totalBusinesses = await this.authRepository.count({
+      where: { role: 'business' },  // Ensure we count only businesses
+    });
+
+    return {
+      total: totalBusinesses,
+      businesses,
+    };
   }
 
 }
