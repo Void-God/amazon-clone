@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards, UsePipes, ValidationPipe, Request } from '@nestjs/common';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 import { LoginBodyDto, LoginResponseDto, RegisterBodyDto, RegisterResponseDto } from './authdto';
@@ -82,4 +82,21 @@ export class AuthController {
         }
     }
 
+
+    @Get('/profile')
+    @ApiResponse({
+        status: 200,
+        description: 'Profile details',
+        type: LoginResponseDto,
+    })
+    @UseGuards(JwtAuthGuard)
+    async getProfile(@Request() req) {
+        try {
+            const userEmail = req.user.mail;
+            const user = await this.authService.getProfile(userEmail)
+            return user;
+        } catch (e) {
+            throw e;
+        }
+    }
 }

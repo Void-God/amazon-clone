@@ -1,4 +1,4 @@
-import { Body, Controller, Get, ParseIntPipe, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Get, ParseIntPipe, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiQuery } from '@nestjs/swagger';
 import { AuthService } from 'src/auth/auth.service';
 import { ModuleAccess } from 'src/auth/decorators/module-access.decorator';
@@ -8,7 +8,7 @@ import { ModuleAccessGuard } from 'src/auth/guards/module-access.guard';
 @Controller('business')
 export class BusinessController {
     constructor(
-        private authService:AuthService
+        private authService: AuthService
     ) {
 
     }
@@ -19,16 +19,10 @@ export class BusinessController {
     @ModuleAccess('SUPERADMIN')
     @Get('list')
     async getBusinessList(
-        @Query('page', ParseIntPipe) page: number,
-        @Query('limit',ParseIntPipe) limit: number
+        @Query('page', new DefaultValuePipe(0), ParseIntPipe) page: number,
+        @Query('limit', new DefaultValuePipe(100), ParseIntPipe) limit: number
     ) {
-        if(!page){
-            page = 0
-        }
-        if(!limit){
-            limit = 100
-        }
-        return await this.authService.getBusinessesList(page,limit);
+        return await this.authService.getBusinessesList(page, limit);
     }
 
 

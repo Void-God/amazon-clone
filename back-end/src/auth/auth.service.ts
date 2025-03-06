@@ -65,23 +65,42 @@ export class AuthService {
 
   async getBusinessesList(page: number, limit) {
 
-    const skip = (page - 1) * limit;
+    const skip = page  * limit;
 
 
     const businesses = await this.authRepository.find({
       where: { role: 'business' },
-      skip: skip,   
-      take: limit, 
+      skip: skip,
+      take: limit,
     });
 
     const totalBusinesses = await this.authRepository.count({
       where: { role: 'business' },  // Ensure we count only businesses
     });
 
+    const businessesWithoutSensitiveData = businesses.map(business => {
+      const { password, isDeleted, ...businessWithoutSensitiveData } = business;
+      return businessWithoutSensitiveData;
+    });
+  
     return {
       total: totalBusinesses,
-      businesses,
+      businesses: businessesWithoutSensitiveData,
+    };
+
+  }
+
+
+  async getProfile(email) {
+    const user = await this.authRepository.findOne({ where: { email } });
+    return {
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      imagePath: user.imageRelativePath,
+      imageName: user.imageLocalName,
+      role: user.role
     };
   }
+
 
 }

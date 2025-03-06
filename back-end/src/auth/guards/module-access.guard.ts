@@ -19,8 +19,6 @@ export class ModuleAccessGuard implements CanActivate {
 
     const requiredModules = this.reflector.get<string[]>('allowedModules', context.getHandler());
 
-    console.log(role, requiredModules, 'these are requreied modules')
-
     if (!requiredModules) {
       return true; // No module restriction, allow access
     }

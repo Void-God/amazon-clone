@@ -5,6 +5,10 @@ import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
 export class RegisterBodyDto {
 
+    @ApiProperty()
+    @IsNotEmpty()
+    name: string;
+
 
     @ApiProperty()
     @IsNotEmpty()
@@ -40,6 +44,9 @@ export class LoginBodyDto {
 
 export class LoginResponseDto {
 
+    @ApiProperty({required: false})
+    name:string
+
     @ApiProperty({ required: false })
     token: string;
 
@@ -62,6 +69,8 @@ export class LoginResponseDto {
 }
 
 export class RegisterResponseDto {
+    @ApiProperty({required: false})
+    name:string
 
     @ApiProperty({ required: false })
     id: number;

@@ -8,6 +8,10 @@ export class Auth {
 
     @Column()
     @IsNotEmpty()
+    name: string;
+
+    @Column()
+    @IsNotEmpty()
     password: string;
 
     @Column()
