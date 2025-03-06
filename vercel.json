@@ -1,0 +1,17 @@
+{
+    "version": 2,
+    "builds": [
+        {
+        "src": "back-end/package.json",
+        "use": "@vercel/node",
+        "config": {
+            "maxLambdaSize": "50mb"
+        }
+        }
+    ],
+    "routes": [
+        {
+        "src": "/(.*)",
+        "dest": "back-end/dist/main.js"
+        }
+  
