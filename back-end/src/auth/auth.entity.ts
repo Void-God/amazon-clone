@@ -23,11 +23,11 @@ export class Auth {
     @IsNotEmpty()
     role: string;
 
-    @Column()
+    @Column({default: null})
     imageRelativePath: string;
 
 
-    @Column()
+    @Column({default: null})
     imageLocalName: string;
 
 

@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { LoginBodyDto, LoginResponseDto, RegisterBodyDto } from './authdto';
+import { LoginBodyDto, LoginResponseDto, RegisterBodyDto, RegisterResponseDto } from './authdto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { ModuleAccessGuard } from './guards/module-access.guard';
 import { ModuleAccess } from './decorators/module-access.decorator';
@@ -19,6 +19,11 @@ export class AuthController {
 
     @ApiBody({
         type: RegisterBodyDto
+    })
+    @ApiResponse({
+        status: 201,
+        description: 'User successfully registered',
+        type: RegisterResponseDto,
     })
     @UsePipes(new ValidationPipe({ transform: true }))
     @Post('register')
@@ -38,7 +43,7 @@ export class AuthController {
         type: LoginBodyDto
     })
     @ApiResponse({
-        status: 201,
+        status: 200,
         description: 'User successfully registered',
         type: LoginResponseDto,
     })
@@ -56,6 +61,11 @@ export class AuthController {
 
     @ApiBody({
         type: RegisterBodyDto
+    })
+    @ApiResponse({
+        status: 201,
+        description: 'User successfully registered',
+        type: RegisterResponseDto,
     })
     @UsePipes(new ValidationPipe({ transform: true }))
     @Post('register-business')

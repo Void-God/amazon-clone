@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, BadRequestException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -26,12 +26,19 @@ export class AuthService {
       email: user.email,
       phoneNumber: user.phoneNumber,
       imagePath: user.imageRelativePath,
-      imageName: user.imageLocalName
+      imageName: user.imageLocalName,
+      role : user.role
     };
   }
 
 
   async register(user: RegisterBodyDto, role?: Roles) {
+
+    const existing = await this.authRepository.findOne({ where: { email : user.email } });
+
+    if(existing)
+      throw new BadRequestException("User Already Exist!")
+
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
     const newUser = this.authRepository.create(

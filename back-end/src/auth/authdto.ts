@@ -40,44 +40,48 @@ export class LoginBodyDto {
 
 export class LoginResponseDto {
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
     token: string;
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
     email: string;
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
     phoneNumber: string;
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
     imageRelativePath: string;
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
     imageLocalName: string;
+
+    @Column()
+    role: string;
 
 
 }
-
 
 export class RegisterResponseDto {
 
-    @ApiProperty()
-    token: string;
+    @ApiProperty({ required: false })
+    id: number;
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
     email: string;
 
-    @ApiProperty()
+    @ApiProperty({ required: false })
     phoneNumber: string;
 
-    @ApiProperty()
-    imageRelativePath: string;
+    @ApiProperty({ required: false })
+    role: string;
 
-    @ApiProperty()
-    imageLocalName: string;
+    @ApiProperty({ required: false })
+    imageRelativePath: string | null;
 
-
+    @ApiProperty({ required: false })
+    imageLocalName: string | null;
 }
+
 
 
 
