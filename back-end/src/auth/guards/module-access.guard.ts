@@ -15,8 +15,10 @@ export class ModuleAccessGuard implements CanActivate {
       throw new UnauthorizedException('Invalid user or missing details in token');
     }
 
-    const role = await this.authService.getRole(user.mail)
+    const {role, id} = await this.authService.getDetails(user.mail)
+    request.user.id = id;
 
+  
     const requiredModules = this.reflector.get<string[]>('allowedModules', context.getHandler());
 
     if (!requiredModules) {

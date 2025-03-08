@@ -53,19 +53,19 @@ export class AuthService {
   }
 
 
-  async getRole(email: string) {
+  async getDetails(email: string) {
     const user = await this.authRepository.findOne({ where: { email } });
 
-    if (user) return user.role;
+    if (user) return user;
 
-    return;
+    return {} as Auth;
   }
 
 
 
   async getBusinessesList(page: number, limit) {
 
-    const skip = page  * limit;
+    const skip = page * limit;
 
 
     const businesses = await this.authRepository.find({
@@ -82,12 +82,18 @@ export class AuthService {
       const { password, isDeleted, ...businessWithoutSensitiveData } = business;
       return businessWithoutSensitiveData;
     });
-  
+
     return {
       total: totalBusinesses,
       businesses: businessesWithoutSensitiveData,
     };
 
+  }
+
+
+
+  async deleteBusiness(id) {
+    return await this.authRepository.delete(id);
   }
 
 

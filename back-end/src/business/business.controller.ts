@@ -1,4 +1,4 @@
-import { Body, Controller, DefaultValuePipe, Get, ParseIntPipe, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, DefaultValuePipe, Delete, Get, Param, ParseIntPipe, Post, Query, UseGuards } from '@nestjs/common';
 import { ApiQuery } from '@nestjs/swagger';
 import { AuthService } from 'src/auth/auth.service';
 import { ModuleAccess } from 'src/auth/decorators/module-access.decorator';
@@ -23,6 +23,17 @@ export class BusinessController {
         @Query('limit', new DefaultValuePipe(100), ParseIntPipe) limit: number
     ) {
         return await this.authService.getBusinessesList(page, limit);
+    }
+
+
+
+    @UseGuards(JwtAuthGuard, ModuleAccessGuard)
+    @ModuleAccess('SUPERADMIN')
+    @Delete(':id')
+    async deleteBusiness(
+        @Param('id') id: number
+    ) {
+        return await this.authService.deleteBusiness(id);
     }
 
 
