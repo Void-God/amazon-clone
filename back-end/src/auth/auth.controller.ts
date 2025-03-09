@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post, Req, UseGuards, UsePipes, ValidationPipe, Request } from '@nestjs/common';
 import { ApiBody, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
-import { LoginBodyDto, LoginResponseDto, RegisterBodyDto, RegisterResponseDto } from './authdto';
+import { ChangedPasswordBodyDto, ChangePasswordBodyDto, ChangePasswordResponseDto, LoginBodyDto, LoginResponseDto, RegisterBodyDto, RegisterResponseDto, ValidateOtpBodyDto, ValidateOtpResponseDto } from './authdto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { ModuleAccessGuard } from './guards/module-access.guard';
 import { ModuleAccess } from './decorators/module-access.decorator';
@@ -57,6 +57,108 @@ export class AuthController {
             throw e
         }
     }
+
+
+    @ApiBody({
+        type: ChangePasswordBodyDto
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'OTP Sent!',
+        type: ChangePasswordResponseDto,
+    })
+    @Post('send-otp')
+    @UsePipes(new ValidationPipe({ transform: true }))
+    async sendOtp(@Body() request: ChangePasswordBodyDto) {
+        try {
+
+            await this.authService.sendOtp(request.email);
+
+            return {
+                message: 'otp sent!'
+            }
+        } catch (e) {
+            throw e
+        }
+    }
+
+
+
+    @ApiBody({
+        type: ChangePasswordBodyDto
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'OTP resent!',
+        type: ChangePasswordResponseDto,
+    })
+    @Post('resend-otp')
+    @UsePipes(new ValidationPipe({ transform: true }))
+    async resendOtp(@Body() request: ChangePasswordBodyDto) {
+        try {
+
+            await this.authService.sendOtp(request.email);
+
+            return {
+                message: 'OTP resent!'
+            }
+        } catch (e) {
+            throw e
+        }
+    }
+
+
+
+    @ApiBody({
+        type: ValidateOtpBodyDto
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'OTP resent!',
+        type: ValidateOtpResponseDto,
+    })
+    @Post('validate-otp')
+    @UsePipes(new ValidationPipe({ transform: true }))
+    async validateOtp(@Body() request: ValidateOtpBodyDto) {
+        try {
+
+            const token = await this.authService.validateOtp(request);
+
+            return {
+                message: 'OTP validated!',
+                token
+            }
+        } catch (e) {
+            throw e
+        }
+    }
+
+
+
+    @ApiBody({
+        type: ChangedPasswordBodyDto
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'password changed!',
+        type: ChangePasswordResponseDto,
+    })
+    @Post('change-password')
+    @UsePipes(new ValidationPipe({ transform: true }))
+    async changePassword(@Body() request: ChangedPasswordBodyDto) {
+        try {
+
+            await this.authService.changePassword(request);
+
+            return {
+                message: 'password change!',
+            }
+        } catch (e) {
+            throw e
+        }
+    }
+
+
 
 
     @ApiBody({

@@ -44,8 +44,8 @@ export class LoginBodyDto {
 
 export class LoginResponseDto {
 
-    @ApiProperty({required: false})
-    name:string
+    @ApiProperty({ required: false })
+    name: string
 
     @ApiProperty({ required: false })
     token: string;
@@ -69,8 +69,8 @@ export class LoginResponseDto {
 }
 
 export class RegisterResponseDto {
-    @ApiProperty({required: false})
-    name:string
+    @ApiProperty({ required: false })
+    name: string
 
     @ApiProperty({ required: false })
     id: number;
@@ -91,9 +91,57 @@ export class RegisterResponseDto {
     imageLocalName: string | null;
 }
 
+export class ChangePasswordBodyDto {
+    @IsNotEmpty()
+    @ApiProperty({ required: true })
+    email: string;
+}
 
 
+export class ChangePasswordResponseDto {
+    @IsNotEmpty()
+    @ApiProperty({ required: true })
+    message: string;
+}
 
+
+export class ValidateOtpBodyDto {
+    @IsNotEmpty()
+    @ApiProperty({ required: true })
+    email: string;
+
+
+    @IsNotEmpty()
+    @ApiProperty({ required: true })
+    otp: string;
+}
+
+
+export class ValidateOtpResponseDto {
+    @ApiProperty({ required: false })
+    message: string;
+
+
+    @IsNotEmpty()
+    @ApiProperty({ required: false })
+    token: string;
+}
+
+export class ChangedPasswordBodyDto {
+    @IsNotEmpty()
+    @ApiProperty({ required: true })
+    token: string;
+
+
+    @IsNotEmpty()
+    @ApiProperty({ required: true })
+    password: string;
+
+
+    @IsNotEmpty()
+    @ApiProperty({ required: true })
+    confirmPassword: string;
+}
 
 
 export type Roles = "buyer" | "business" | "SUPERADMIN";

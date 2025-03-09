@@ -9,6 +9,7 @@ import { AuthController } from './auth.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Auth } from './auth.entity';
 import { AuthService } from './auth.service';
+import { ForgotPassword } from './forgot-password.entity';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { AuthService } from './auth.service';
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '1h' },
     }),
-    TypeOrmModule.forFeature([Auth])
+    TypeOrmModule.forFeature([Auth, ForgotPassword])
   ],
   providers: [JwtStrategy, JwtAuthGuard, ModuleAccessGuard, AuthService],
   exports: [JwtAuthGuard, ModuleAccessGuard, AuthService],
