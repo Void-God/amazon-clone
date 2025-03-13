@@ -1,6 +1,6 @@
 import axios from "axios";
+import API_URL from "../../../config";
 
-const API_URL = "http://172.16.5.74:3000";
 
 export const businessList = async (token: string | null) => {
   try {

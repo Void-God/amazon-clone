@@ -1,6 +1,5 @@
 import axios from "axios";
-
-const API_URL = "http://172.16.5.74:3000";
+import API_URL from "../../../config";
 
 export const loginUser = async (email: string, password: string) => {
   try {
