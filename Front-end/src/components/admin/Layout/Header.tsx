@@ -1,8 +1,18 @@
 import { FiLogOut } from "react-icons/fi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import '../../../StyleSheet/header.css';
+import { useNavigate } from "react-router-dom";
+import { LOGOUT } from "../../../app/store";
 const Header = () => {
   const { user } = useSelector((state: any) => state.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch({ type: LOGOUT });
+    navigate('/')
+  }
+
+
   return (
 
     <>
@@ -10,7 +20,7 @@ const Header = () => {
         <div className="title">Admin Dashboard</div>
         <div className="user-actions">
           <span className="role-badge">{user.role.toUpperCase()}</span>
-          <button className="logout-btn">
+          <button className="logout-btn" onClick={handleLogout}>
             <FiLogOut size={18} />
             Logout
           </button>
