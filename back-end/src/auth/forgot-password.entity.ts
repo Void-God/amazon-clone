@@ -21,7 +21,7 @@ export class ForgotPassword {
     otpExpires: string;
 
 
-    @Column()
+    @Column({ default: null })
     token: string;
 
 }
