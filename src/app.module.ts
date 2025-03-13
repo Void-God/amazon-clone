@@ -27,7 +27,7 @@ import { ItemModule } from './item/item.module';
       database: 'neon',
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
-    })
+    }),
 
     AuthModule,
     BusinessModule,
