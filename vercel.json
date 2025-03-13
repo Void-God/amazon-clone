@@ -2,17 +2,14 @@
     "version": 2,
     "builds": [
         {
-            "src": "back-end/package.json",
-            "use": "@vercel/node",
-            "config": {
-                "buildCommand": "cd back-end && npm install && npm run build"
-            }
+            "src": "back-end/src/main.ts",
+            "use": "@vercel/node"
         }
     ],
     "routes": [
         {
             "src": "/(.*)",
-            "dest": "back-end/dist/main.js",
+            "dest": "back-end/src/main.js",
             "methods": [
                 "GET",
                 "POST",
