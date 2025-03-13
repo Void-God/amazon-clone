@@ -5,8 +5,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { BusinessModule } from './business/business.module';
 import { ItemModule } from './item/item.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
 
 @Module({
   imports: [
@@ -29,12 +27,7 @@ import { join } from 'path';
       database: 'neon',
       entities: ['dist/**/*.entity{.ts,.js}'],
       synchronize: true,
-    }),
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'uploads'),
-      serveRoot: '/uploads',
-    }),
-
+    })
 
     AuthModule,
     BusinessModule,
