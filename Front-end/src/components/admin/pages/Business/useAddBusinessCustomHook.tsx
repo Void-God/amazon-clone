@@ -30,7 +30,6 @@ const useAddBusinessCustomHook = () => {
   }
 
   const deleteBusiness = async (businessId: string) => {
-console.log("ia ma ");
 
     setLoading(true);
     try {
@@ -39,7 +38,6 @@ console.log("ia ma ");
       const response = await dispatch<any>(deleteBusinessAction(token as any, businessId))
       if (response) {
         notificationService.showNotification({ message: "Business Deleted!", isOpen: true })
-        navigate('/verify-otp')
       }
       else {
         notificationService.showNotification({ message: "Failed to delete Business. Try again.!", isOpen: true })

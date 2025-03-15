@@ -31,7 +31,7 @@ export const addBusinessApi = async (token: string, data: any) => {
 
 export const deleteBusinessApi = async (token: string, businessId: string) => {
   try {
-    const response = await axios.delete(`${API_URL}/auth/delete-business/${businessId}`, {
+    const response = await axios.delete(`${API_URL}/business/${businessId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
