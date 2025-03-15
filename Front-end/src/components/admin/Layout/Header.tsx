@@ -3,14 +3,30 @@ import { useDispatch, useSelector } from "react-redux";
 import '../../../StyleSheet/header.css';
 import { useNavigate } from "react-router-dom";
 import { LOGOUT } from "../../../app/store";
+import { showNotification } from "../../../app/service/notification/notificationSlice";
 const Header = () => {
   const { user } = useSelector((state: any) => state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const handleLogout = () => {
+
+  const handleYes = () => {
+    console.log("I am called");
     dispatch({ type: LOGOUT });
-    navigate('/')
-  }
+    navigate('/');
+  };
+  
+  const handleLogout = () => {
+    dispatch(
+      showNotification({
+        message: "Are you sure you want to logout?",
+        isOpen: true,
+        type: "confirmation",
+        onYes: handleYes, // ✅ Direct function reference
+        onNo: () => {},
+      })
+    );
+  };
+  
 
 
   return (

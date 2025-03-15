@@ -1,28 +1,30 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 interface NotificationState {
   message: string;
   isOpen: boolean;
+  type?: "normal" | "confirmation";
+  onYes?: () => void;
+  onNo?: () => void;
 }
+
 const initialState: NotificationState = {
   message: "",
   isOpen: false,
 };
+
 const notificationSlice = createSlice({
   name: "notification",
   initialState,
   reducers: {
-    visibleNotification: (state, action) => {
-      const { message, isOpen } = action.payload
-      state.isOpen = isOpen
-      state.message = message
+    showNotification: (state, action) => {
+      return { ...state, ...action.payload };
     },
-    hideNotification: (state, action) => {
-      const { message, isOpen } = action.payload
-      state.isOpen = isOpen
-      state.message = message
+    hideNotification: (state) => {
+      return { ...initialState };
     },
   },
 });
 
-export const { visibleNotification, hideNotification } = notificationSlice.actions;
+export const { showNotification, hideNotification } = notificationSlice.actions;
 export default notificationSlice.reducer;

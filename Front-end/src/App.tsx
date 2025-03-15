@@ -9,6 +9,9 @@ import DashBoard from "./components/admin/pages/DashBoard";
 import BuyerDashBoard from "./components/buyer/pages/BuyerDashBoard";
 import BusinessList from "./components/admin/pages/Business/BusinessList";
 import AddBusiness from "./components/admin/pages/Business/AddBusiness";
+import ForgotPassword from "./auth/ForgotPassword/ForgotPassword";
+import VerifyOtp from "./auth/ForgotPassword/VerifyOtp";
+import ChangePassword from "./auth/ForgotPassword/ChangePassword";
 
 
 
@@ -21,6 +24,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/verify-otp" element={<VerifyOtp />} />
+        <Route path="change-password" element={<ChangePassword />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/admin" element={<AuthGuard role={"SUPERADMIN"}><Layout /></AuthGuard>}>
           <Route path="dashboard" element={<DashBoard />} />
@@ -30,7 +36,6 @@ function App() {
 
         <Route path="/buyer" element={<AuthGuard role={"buyer"}><BuyerLayout /></AuthGuard>}>
           <Route path="dashboard" element={<BuyerDashBoard />} />
-          {/* <Route path="details" element={<Details />} /> */}
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

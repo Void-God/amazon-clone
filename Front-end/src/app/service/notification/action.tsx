@@ -1,16 +1,20 @@
-
 import { AppThunk } from "../../store";
-import { hideNotification, visibleNotification } from "./notificationSlice";
+import { hideNotification, showNotification } from "./notificationSlice";
 
-type GlobalModal={
-  message: string,
-  isOpen: boolean,
-}
+type GlobalModal = {
+  message: string;
+  isOpen: boolean;
+  type?: string;
+  onYes:()=>void,
+  onNo:()=>void
+};
 
-export const setVisibleNotification= (modal: Partial<GlobalModal>): AppThunk => (dispatch) => {
-  dispatch(visibleNotification(modal))
-}
-export const setHideNotification = (modal: Partial<GlobalModal>): AppThunk => (dispatch) => {
-  dispatch(hideNotification(modal))
-} 
+export const setVisibleNotification =
+  (modal: Partial<GlobalModal>): AppThunk =>
+  (dispatch) => {
+    dispatch(showNotification(modal));
+  };
 
+export const setHideNotification = (): AppThunk => (dispatch) => {
+  dispatch(hideNotification());
+};

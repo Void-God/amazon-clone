@@ -1,4 +1,3 @@
-
 import { FaUser, FaLock } from "react-icons/fa";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import "../../StyleSheet/login.css";
@@ -36,15 +35,19 @@ const Login = () => {
                 <ErrorMessage name="password" />
               </div>
 
-              <button type="submit" className="login-button" disabled={isSubmitting} >
+
+              <button type="submit" className="login-button" disabled={isSubmitting}>
                 {isSubmitting ? "Logging in..." : "Login"}
               </button>
+              <div className="forgot-password-container">
+                <a onClick={() => navigate("/forgot-password")} className="forgot-password-text">Forgot Password?</a>
+              </div>
             </Form>
           )}
         </Formik>
 
         <p className="signup-text">
-          Don't have an account?{" "}
+          Don't have an account? {" "}
           <a onClick={() => navigate("/signup")}>Sign up</a>
         </p>
       </div>

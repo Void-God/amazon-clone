@@ -24,10 +24,16 @@ const useBusinessListCustomHook = () => {
   const addBusiness = () => {
     navigate('/admin/business/addbusiness')
   }
+
+  const deleteBusiness=()=>{
+
+
+  }
   return {
     data,
     loading,
-    addBusiness
+    addBusiness,
+    deleteBusiness
   };
 }
 
