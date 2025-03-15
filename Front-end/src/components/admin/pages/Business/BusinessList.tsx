@@ -1,10 +1,12 @@
 
 import DataTable from "../../../common/DataTable";
+import useAddBusinessCustomHook from "./useAddBusinessCustomHook";
 import useBusinessListCustomHook from "./useBusinessListCustomHook";
 
 
 const BusinessList = () => {
-  const { loading, data, addBusiness, deleteBusiness } = useBusinessListCustomHook();
+  const { loading, data, addBusiness } = useBusinessListCustomHook();
+  const { deleteBusiness } = useAddBusinessCustomHook();
 
   const columns = [
     { key: "name", label: "Name" },

@@ -1,28 +1,64 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import notificationService from "../../../../app/service/notification/notification";
+import { addBusinessAction, deleteBusinessAction } from "../../../../app/service/business/action";
 
 const useAddBusinessCustomHook = () => {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch()
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    password: "",
-  });
+  const handleSubmit = async (data: any) => {
+    console.log("i am ca");
 
-  const handleChange = (e: any) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('user')
+      const response = await dispatch<any>(addBusinessAction(token as any, data))
+      if (response) {
+        notificationService.showNotification({ message: "Business Added successfully", isOpen: true })
+      }
+      else {
+        notificationService.showNotification({ message: "Failed to Add Business. Try again.!", isOpen: true })
+      }
+    } catch (error) {
+      notificationService.showNotification({ message: "Failed to Add Business. Try again.!", isOpen: true })
+    }
+    setLoading(false);
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    console.log("Business Added:", formData);
-  };
+  }
 
+  const deleteBusiness = async (businessId: string) => {
+console.log("ia ma ");
+
+    setLoading(true);
+    try {
+
+      const token = localStorage.getItem('user')
+      const response = await dispatch<any>(deleteBusinessAction(token as any, businessId))
+      if (response) {
+        notificationService.showNotification({ message: "Business Deleted!", isOpen: true })
+        navigate('/verify-otp')
+      }
+      else {
+        notificationService.showNotification({ message: "Failed to delete Business. Try again.!", isOpen: true })
+      }
+    }
+    catch (error) {
+      notificationService.showNotification({ message: "Failed to delete Business. Try again.!", isOpen: true })
+    }
+    setLoading(false);
+
+
+
+  }
 
   return {
-    handleChange,
+    loading,
     handleSubmit,
-    formData,
+    deleteBusiness,
+
   };
 }
 

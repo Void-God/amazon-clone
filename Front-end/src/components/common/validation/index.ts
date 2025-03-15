@@ -50,3 +50,11 @@ export const changePasswordValidationSchema = Yup.object().shape({
     .required("Confirm password is required"),
 });
 
+
+export const addBusinessValidationSchema = Yup.object({
+  name: Yup.string().required('Business name is required'),
+  email: Yup.string().email('Invalid email format').required('Email is required'),
+  phoneNumber: Yup.string().matches(/^\d{10}$/, 'Phone number must be 10 digits').required('Phone number is required'),
+  password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
+});
+

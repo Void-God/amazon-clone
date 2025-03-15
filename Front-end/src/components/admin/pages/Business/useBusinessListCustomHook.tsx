@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { businessAction } from "../../../../app/service/business/action";
+import { businessAction, deleteBusinessAction } from "../../../../app/service/business/action";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -25,15 +25,10 @@ const useBusinessListCustomHook = () => {
     navigate('/admin/business/addbusiness')
   }
 
-  const deleteBusiness=()=>{
-
-
-  }
   return {
     data,
     loading,
     addBusiness,
-    deleteBusiness
   };
 }
 
